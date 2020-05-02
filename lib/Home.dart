@@ -19,21 +19,18 @@ class Home extends StatelessWidget {
 }
 
 class HomePage extends StatefulWidget {
-
   @override
   _HomePageState createState() => _HomePageState();
 }
 
 class _HomePageState extends State<HomePage> {
-  
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       appBar: AppBar(
         elevation: 8.0,
         backgroundColor: drawerBackgroundColor,
-        title: Text(" Easy Eats"),
+        title: Text("Easy Eats"),
         centerTitle: true,
       ),
       body: Stack(
