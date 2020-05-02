@@ -35,7 +35,6 @@ class _HomePageState extends State<HomePage> {
       ),
       body: Stack(
         children: <Widget>[
-          //TODO Make this work with different pages, selection of pages will be where Container() is, We just relaunch this page constantly.
           Container(color: Colors.red),
           CollapsingNavigationDrawer()
         ],

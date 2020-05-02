@@ -1,3 +1,4 @@
+import 'package:easy_eats/recipe/CreateRecipe.dart';
 import 'package:flutter/material.dart';
 
 import '../Theme.dart';
@@ -46,8 +47,7 @@ class CollapsingNavigationDrawerState extends State<CollapsingNavigationDrawer>
             Expanded(
               child: ListView.separated(
                 separatorBuilder: (context, counter) {
-                  return Divider(color: Colors.grey,
-                      height: 12.0);
+                  return Divider(color: Colors.grey, height: 12.0);
                 },
                 itemBuilder: (context, counter) {
                   return CollapsingListTile(
@@ -55,6 +55,17 @@ class CollapsingNavigationDrawerState extends State<CollapsingNavigationDrawer>
                       setState(() {
                         currentSelectedIndex = counter;
                       });
+                      print(currentSelectedIndex);
+                      switch (currentSelectedIndex) {
+                        case 3:
+                          new Future.delayed(new Duration(seconds: 1), () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => CreateRecipe()));
+                          });
+                          break;
+                      }
                     },
                     isSelected: currentSelectedIndex == counter,
                     title: navigationItems[counter].title,
