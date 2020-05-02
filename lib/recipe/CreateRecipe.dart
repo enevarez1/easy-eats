@@ -13,6 +13,8 @@ class Item {
   final String time;
 }
 
+TextStyle style = TextStyle(color: Colors.white);
+
 List<Item> users = <Item>[
   const Item(
     '5 minutes',
@@ -55,6 +57,28 @@ List<Item> users = <Item>[
 var ingredients = <Widget>[];
 var directions = <Widget>[];
 
+Widget _customButton() {
+  return Material(
+    child: InkWell(
+      borderRadius: BorderRadius.circular(20),
+      onTap: () {},
+      splashColor: Colors.blue,
+      highlightColor: Colors.blue,
+      child: Container(
+        height: 36,
+        width: 240,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(20),
+          border: Border.all(color: Colors.grey),
+        ),
+        child: Center(
+          child: Text("Custom Button with InkWell"),
+        ),
+      ),
+    ),
+  );
+}
+
 class _CreateRecipeState extends State<CreateRecipe> {
   Item selectedUser1;
   Item selectedUser2;
@@ -79,17 +103,24 @@ class _CreateRecipeState extends State<CreateRecipe> {
           color: drawerBackgroundColor,
           child: Column(
             children: [
-              TextFormField(),
-              TextFormField(),
+              Text("Recipe Name", style: style),
+              TextFormField(
+                style: style,
+                expands: false,
+                cursorColor: Colors.red,
+              ),
               Row(
                 children: [
                   Column(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      Text("Prep Time"),
+                      Text(
+                        "Prep Time",
+                        style: style,
+                      ),
                       DropdownButton<Item>(
-                        style: TextStyle(color: Colors.white),
-                        hint: Text("Minutes"),
+                        style: style,
+                        hint: Text("Minutes", style: style),
                         value: selectedUser1,
                         onChanged: (Item value) {
                           setState(() {
@@ -103,7 +134,7 @@ class _CreateRecipeState extends State<CreateRecipe> {
                               children: <Widget>[
                                 Text(
                                   user.time,
-                                  style: TextStyle(color: Colors.black),
+                                  style: style,
                                 ),
                               ],
                             ),
@@ -114,10 +145,10 @@ class _CreateRecipeState extends State<CreateRecipe> {
                   ),
                   Column(
                     children: [
-                      Text("Meal Time"),
+                      Text("Meal Time", style: style),
                       DropdownButton<Item>(
-                        style: TextStyle(color: Colors.white),
-                        hint: Text("Minutes"),
+                        style: style,
+                        hint: Text("Minutes", style: style),
                         value: selectedUser2,
                         onChanged: (Item value) {
                           setState(() {
@@ -131,7 +162,7 @@ class _CreateRecipeState extends State<CreateRecipe> {
                               children: <Widget>[
                                 Text(
                                   user.time,
-                                  style: TextStyle(color: Colors.black),
+                                  style: style,
                                 ),
                               ],
                             ),
@@ -142,10 +173,10 @@ class _CreateRecipeState extends State<CreateRecipe> {
                   ),
                   Column(
                     children: [
-                      Text("Total Time"),
+                      Text("Total Time", style: style),
                       DropdownButton<Item>(
-                        style: TextStyle(color: Colors.white),
-                        hint: Text("Minutes"),
+                        style: style,
+                        hint: Text("Minutes", style: style),
                         value: selectedUser3,
                         onChanged: (Item value) {
                           setState(() {
@@ -159,7 +190,7 @@ class _CreateRecipeState extends State<CreateRecipe> {
                               children: <Widget>[
                                 Text(
                                   user.time,
-                                  style: TextStyle(color: Colors.black),
+                                  style: style,
                                 ),
                               ],
                             ),
@@ -170,17 +201,22 @@ class _CreateRecipeState extends State<CreateRecipe> {
                   )
                 ],
               ),
-              RaisedButton(
-                color: Colors.red,
-                onPressed: () {
-                  addNewIngredient();
-                },
-                child: Text(
-                  "Add Ingredient",
-                  style: TextStyle(color: Colors.white),
-                ),
+              Row(
+                children: [
+                  Text(
+                    "Ingredients",
+                    style: style,
+                  ),
+                  RaisedButton(
+                    shape: StadiumBorder(),
+                    color: Colors.red,
+                    onPressed: () {
+                      addNewIngredient();
+                    },
+                    child: Icon(Icons.add),
+                  ),
+                ],
               ),
-
               ListView.builder(
                 scrollDirection: Axis.vertical,
                 shrinkWrap: true,
@@ -189,15 +225,21 @@ class _CreateRecipeState extends State<CreateRecipe> {
                   return ingredients[index];
                 },
               ),
-              RaisedButton(
-                color: Colors.red,
-                onPressed: () {
-                  addNewDirection();
-                },
-                child: Text(
-                  "Add Direction",
-                  style: TextStyle(color: Colors.white),
-                ),
+              Row(
+                children: [
+                  Text(
+                    "Direction",
+                    style: style,
+                  ),
+                  RaisedButton(
+                    shape: StadiumBorder(),
+                    color: Colors.red,
+                    onPressed: () {
+                      addNewDirection();
+                    },
+                    child: Icon(Icons.add),
+                  ),
+                ],
               ),
               ListView.builder(
                 scrollDirection: Axis.vertical,
@@ -216,13 +258,13 @@ class _CreateRecipeState extends State<CreateRecipe> {
 
   void addNewIngredient() {
     setState(() {
-      ingredients.add(TextFormField());
+      ingredients.add(TextFormField(style: style));
     });
   }
 
   void addNewDirection() {
     setState(() {
-      directions.add(TextFormField());
+      directions.add(TextFormField(style: style));
     });
   }
 }
