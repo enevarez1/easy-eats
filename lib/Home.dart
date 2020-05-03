@@ -1,8 +1,11 @@
-import 'package:easy_eats/Theme.dart';
+import 'package:easy_eats/recipe/CreateRecipe.dart';
+import 'package:easy_eats/recipe/Recipe.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-import 'commons/CollapsingNavigationDrawer.dart';
+import 'model/NavigationModel.dart';
+
+var recipes = <Recipe>[];
 
 class Home extends StatelessWidget {
   // This widget is the root of your application.
@@ -23,20 +26,83 @@ class HomePage extends StatefulWidget {
   _HomePageState createState() => _HomePageState();
 }
 
+var recipeIngredients = <String>["Step 1", "Step 2"];
+
 class _HomePageState extends State<HomePage> {
+  Recipe dummyRecipe =
+      Recipe("Some Dish", "Some Description", recipeIngredients, recipeIngredients, 10, 10, 10);
+
+  var recipeList = <Recipe>[];
+
   @override
   Widget build(BuildContext context) {
+    recipeList.add(dummyRecipe);
     return Scaffold(
+      floatingActionButton: FloatingActionButton.extended(
+        onPressed: () {
+          Navigator.push(context, MaterialPageRoute(builder: (context) => CreateRecipe()));
+        },
+        backgroundColor: Colors.blue,
+        icon: Icon(Icons.add),
+        label: Text("Add"),
+      ),
+      drawer: Drawer(
+          child: ListView(
+        children: [
+          UserAccountsDrawerHeader(
+            accountName: Text("Username"),
+            accountEmail: Text("utepstudent@miners.utep.edu"),
+            currentAccountPicture: CircleAvatar(
+              backgroundColor:
+                  Theme.of(context).platform == TargetPlatform.iOS ? Colors.white : Colors.white,
+              child: Text(
+                "A",
+                style: TextStyle(fontSize: 40.0),
+              ),
+            ),
+          ),
+          Container(
+            child: ListView.builder(
+              scrollDirection: Axis.vertical,
+              shrinkWrap: true,
+              itemCount: navigationItems.length,
+              itemBuilder: (context, index) {
+                return ListTile(
+                  title: Text('${navigationItems[index].title}'),
+                  leading: Icon(navigationItems[index].icon),
+                  onTap: () {
+                    print(index);
+                    switch (index) {
+                      case 0:
+                        Navigator.push(context, MaterialPageRoute(builder: (context) => Home()));
+                        break;
+                    }
+                  },
+                );
+              },
+            ),
+          )
+        ],
+      )),
       appBar: AppBar(
         elevation: 8.0,
-        backgroundColor: drawerBackgroundColor,
+        backgroundColor: Colors.blue,
         title: Text("Easy Eats"),
         centerTitle: true,
       ),
       body: Stack(
         children: <Widget>[
-          Container(color: Colors.red),
-          CollapsingNavigationDrawer()
+          ListView.builder(
+            itemBuilder: (context, index) {
+              return ListTile(
+                title: Text('${recipeList[index].recipeName}'),
+                subtitle: Text('${recipeList[index].recipeDescription}'),
+                leading: null,
+                onTap: () {},
+              );
+            },
+            itemCount: recipeList.length,
+          ),
         ],
       ),
     );

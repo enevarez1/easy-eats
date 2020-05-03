@@ -9,10 +9,7 @@ class NavigationModel {
 }
 
 List<NavigationModel> navigationItems = [
-  NavigationModel(title: "User", icon: Icons.person),
   NavigationModel(title: "Home", icon: Icons.home),
   NavigationModel(title: "Search", icon: Icons.search),
-  NavigationModel(title: "New Recipe", icon: Icons.add_circle_outline),
   NavigationModel(title: "Settings", icon: Icons.settings),
-
 ];

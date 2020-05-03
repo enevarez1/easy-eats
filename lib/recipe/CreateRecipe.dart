@@ -1,8 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-import '../Theme.dart';
-
 class CreateRecipe extends StatefulWidget {
   _CreateRecipeState createState() => _CreateRecipeState();
 }
@@ -13,7 +11,7 @@ class Item {
   final String time;
 }
 
-TextStyle style = TextStyle(color: Colors.white);
+TextStyle style = TextStyle(color: Colors.black);
 
 List<Item> users = <Item>[
   const Item(
@@ -57,28 +55,6 @@ List<Item> users = <Item>[
 var ingredients = <Widget>[];
 var directions = <Widget>[];
 
-Widget _customButton() {
-  return Material(
-    child: InkWell(
-      borderRadius: BorderRadius.circular(20),
-      onTap: () {},
-      splashColor: Colors.blue,
-      highlightColor: Colors.blue,
-      child: Container(
-        height: 36,
-        width: 240,
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(20),
-          border: Border.all(color: Colors.grey),
-        ),
-        child: Center(
-          child: Text("Custom Button with InkWell"),
-        ),
-      ),
-    ),
-  );
-}
-
 class _CreateRecipeState extends State<CreateRecipe> {
   Item selectedUser1;
   Item selectedUser2;
@@ -91,23 +67,23 @@ class _CreateRecipeState extends State<CreateRecipe> {
       child: Scaffold(
         floatingActionButton: FloatingActionButton.extended(
           onPressed: () {},
-          backgroundColor: Colors.red,
+          backgroundColor: Colors.blue,
           icon: Icon(Icons.save),
           label: Text("Save"),
         ),
         appBar: AppBar(
           title: Text("Create Recipe"),
-          backgroundColor: drawerBackgroundColor,
+          backgroundColor: Colors.blue,
         ),
         body: Container(
-          color: drawerBackgroundColor,
+          color: Colors.white,
           child: Column(
             children: [
               Text("Recipe Name", style: style),
               TextFormField(
                 style: style,
                 expands: false,
-                cursorColor: Colors.red,
+                cursorColor: Colors.blue,
               ),
               Row(
                 children: [
@@ -209,7 +185,7 @@ class _CreateRecipeState extends State<CreateRecipe> {
                   ),
                   RaisedButton(
                     shape: StadiumBorder(),
-                    color: Colors.red,
+                    color: Colors.blue,
                     onPressed: () {
                       addNewIngredient();
                     },
@@ -233,7 +209,7 @@ class _CreateRecipeState extends State<CreateRecipe> {
                   ),
                   RaisedButton(
                     shape: StadiumBorder(),
-                    color: Colors.red,
+                    color: Colors.blue,
                     onPressed: () {
                       addNewDirection();
                     },
