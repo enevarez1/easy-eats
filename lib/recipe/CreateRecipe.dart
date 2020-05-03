@@ -335,6 +335,7 @@ class _CreateRecipeState extends State<CreateRecipe> {
       ingredientNumber = i;
       ingredientsList.add(_ingredientsEditingController.text);
       ingredients.add(Text("$i. ${_ingredientsEditingController.text}", style: style));
+      _ingredientsEditingController.text = "";
     });
   }
 
@@ -343,6 +344,7 @@ class _CreateRecipeState extends State<CreateRecipe> {
       directionNumber = i;
       directionsList.add(_directionEditingController.text);
       directions.add(Text("$i. ${_directionEditingController.text}", style: style));
+      _ingredientsEditingController.text = "";
     });
   }
 }

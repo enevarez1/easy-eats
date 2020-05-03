@@ -29,14 +29,10 @@ class HomePage extends StatefulWidget {
 var recipeIngredients = <String>["Step 1", "Step 2"];
 
 class _HomePageState extends State<HomePage> {
-  Recipe dummyRecipe =
-      Recipe("Some Dish", "Some Description", recipeIngredients, recipeIngredients, 10, 10, 10);
-
   var recipeList = <Recipe>[];
 
   @override
   Widget build(BuildContext context) {
-    recipeList.add(dummyRecipe);
     return Scaffold(
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () {
