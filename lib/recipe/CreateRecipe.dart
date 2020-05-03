@@ -1,5 +1,8 @@
+import 'dart:io';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 
 class CreateRecipe extends StatefulWidget {
   _CreateRecipeState createState() => _CreateRecipeState();
@@ -56,6 +59,7 @@ var ingredients = <Widget>[];
 var directions = <Widget>[];
 
 class _CreateRecipeState extends State<CreateRecipe> {
+  var filepath;
   Item selectedUser1;
   Item selectedUser2;
   Item selectedUser3;
@@ -224,12 +228,61 @@ class _CreateRecipeState extends State<CreateRecipe> {
                 itemBuilder: (context, index) {
                   return directions[index];
                 },
-              )
+              ),
+              filepath == null ? Image.asset("assets/images/owl.jpg") : Image.file(File(filepath)),
+              RaisedButton(
+                shape: StadiumBorder(),
+                color: Colors.blue,
+                onPressed: () {
+                  _showOptions(context);
+                },
+                child: Icon(Icons.camera),
+              ),
             ],
           ),
         ),
       ),
     );
+  }
+
+  void _showOptions(BuildContext context) {
+    showModalBottomSheet(
+        context: context,
+        builder: (context) {
+          return Container(
+              height: 150,
+              child: Column(children: <Widget>[
+                ListTile(
+                    onTap: () {
+                      _showPhotoCamera();
+                    },
+                    leading: Icon(Icons.photo_camera),
+                    title: Text("Take a picture from camera")),
+                ListTile(
+                    onTap: () {
+                      Navigator.pop(context);
+                      _showPhotoLibrary();
+                    },
+                    leading: Icon(Icons.photo_library),
+                    title: Text("Choose from photo library"))
+              ]));
+        });
+  }
+
+  void _showPhotoLibrary() async {
+    final file = await ImagePicker.pickImage(source: ImageSource.gallery);
+    setState(() {
+      filepath = file.path;
+    });
+  }
+
+  void _showPhotoCamera() async {
+    final file = await ImagePicker.pickImage(
+      source: ImageSource.camera,
+    );
+    setState(() {
+      filepath = file.path;
+    });
   }
 
   void addNewIngredient() {
