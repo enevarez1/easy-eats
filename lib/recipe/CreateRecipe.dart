@@ -229,7 +229,13 @@ class _CreateRecipeState extends State<CreateRecipe> {
                   return directions[index];
                 },
               ),
-              filepath == null ? Image.asset("assets/images/owl.jpg") : Image.file(File(filepath)),
+              filepath == null
+                  ? Image.asset("assets/images/owl.jpg")
+                  : Image.file(
+                      File(filepath),
+                      height: 500,
+                      width: 500,
+                    ),
               RaisedButton(
                 shape: StadiumBorder(),
                 color: Colors.blue,
