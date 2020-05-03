@@ -8,6 +8,7 @@ class Recipe {
   num recipePrepTime;
   num recipeCookTime;
   num recipeTotalTime;
+  var imageFilepath;
 
   Recipe(this.recipeName, this.recipeDescription, this.recipeIngredients, this.recipeSteps,
       this.recipePrepTime, this.recipeCookTime, this.recipeTotalTime);
