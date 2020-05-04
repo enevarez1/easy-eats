@@ -4,6 +4,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
+import '../Home.dart';
+
 class CreateRecipe extends StatefulWidget {
   _CreateRecipeState createState() => _CreateRecipeState();
 }
@@ -58,11 +60,11 @@ var ingredientNumber = 0;
 var directionNumber = 0;
 var ingredients = <Widget>[];
 var directions = <Widget>[];
-var ingredientsList = <String>[];
-var directionsList = <String>[];
+var ingredientList = <String>[];
+var directionList = <String>[];
+var filepath;
 
 class _CreateRecipeState extends State<CreateRecipe> {
-  var filepath;
   Item selectedUser1;
   Item selectedUser2;
   Item selectedUser3;
@@ -80,11 +82,30 @@ class _CreateRecipeState extends State<CreateRecipe> {
       elevation: 8.0,
       child: Scaffold(
         floatingActionButton: FloatingActionButton.extended(
-          onPressed: () {},
+          onPressed: () {
+            filepath = null;
+            ingredientNumber = 0;
+            directionNumber = 0;
+            ingredients = <Widget>[];
+            directions = <Widget>[];
+            //TODO save created recipe here
+            Navigator.pop(context, MaterialPageRoute(builder: (context) => Home()));
+          },
           icon: Icon(Icons.save),
           label: Text("Save"),
         ),
         appBar: AppBar(
+          leading: IconButton(
+            icon: Icon(Icons.arrow_back),
+            onPressed: () {
+              filepath = null;
+              ingredientNumber = 0;
+              directionNumber = 0;
+              ingredients = <Widget>[];
+              directions = <Widget>[];
+              Navigator.pop(context, MaterialPageRoute(builder: (context) => Home()));
+            },
+          ),
           title: Text("Create Recipe"),
           backgroundColor: Colors.blue,
         ),
@@ -333,7 +354,7 @@ class _CreateRecipeState extends State<CreateRecipe> {
   void addNewIngredient(int i) {
     setState(() {
       ingredientNumber = i;
-      ingredientsList.add(_ingredientsEditingController.text);
+      ingredientList.add(_ingredientsEditingController.text);
       ingredients.add(Text("$i. ${_ingredientsEditingController.text}", style: style));
       _ingredientsEditingController.text = "";
     });
@@ -342,7 +363,7 @@ class _CreateRecipeState extends State<CreateRecipe> {
   void addNewDirection(int i) {
     setState(() {
       directionNumber = i;
-      directionsList.add(_directionEditingController.text);
+      directionList.add(_directionEditingController.text);
       directions.add(Text("$i. ${_directionEditingController.text}", style: style));
       _ingredientsEditingController.text = "";
     });
