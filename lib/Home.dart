@@ -27,6 +27,7 @@ class HomePage extends StatefulWidget {
 }
 
 var recipeIngredients = <String>["Step 1", "Step 2"];
+var cheon = "My best friend";
 
 class _HomePageState extends State<HomePage> {
   var recipeList = <Recipe>[];
