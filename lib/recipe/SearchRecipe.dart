@@ -5,15 +5,6 @@ import 'package:flutter/material.dart';
 
 class SearchRecipe extends StatefulWidget {
 
-  var _searchEdit = new TextEditingController();
-  bool _isSearch = true;
-  String _searchText = "";
-  List<String> _searchListItems;
-  List<String> _recipeListItems;
-
-
-
-
   @override
   _SearchState createState() {
     return new _SearchState();
