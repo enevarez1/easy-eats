@@ -16,7 +16,7 @@ class Item {
   final String time;
 }
 
-List<Item> users = <Item>[
+List<Item> timeCounter = <Item>[
   const Item(
     '5 minutes',
   ),
@@ -123,7 +123,7 @@ class _CreateRecipeState extends State<CreateRecipe> {
                               selectedUser1 = value;
                             });
                           },
-                          items: users.map((Item user) {
+                          items: timeCounter.map((Item user) {
                             return DropdownMenuItem<Item>(
                               value: user,
                               child: Row(
@@ -151,7 +151,7 @@ class _CreateRecipeState extends State<CreateRecipe> {
                               selectedUser2 = value;
                             });
                           },
-                          items: users.map((Item user) {
+                          items: timeCounter.map((Item user) {
                             return DropdownMenuItem<Item>(
                               value: user,
                               child: Row(
@@ -179,7 +179,7 @@ class _CreateRecipeState extends State<CreateRecipe> {
                               selectedUser3 = value;
                             });
                           },
-                          items: users.map((Item user) {
+                          items: timeCounter.map((Item user) {
                             return DropdownMenuItem<Item>(
                               value: user,
                               child: Row(
