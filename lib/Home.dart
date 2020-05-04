@@ -1,5 +1,6 @@
 import 'package:easy_eats/recipe/CreateRecipe.dart';
 import 'package:easy_eats/recipe/Recipe.dart';
+import 'package:easy_eats/recipe/SearchRecipe.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -74,6 +75,11 @@ class _HomePageState extends State<HomePage> {
                         Navigator.pushReplacement(
                             context, MaterialPageRoute(builder: (context) => Home()));
                         break;
+                      case 1: 
+                        Navigator.pushReplacement(
+                            context, MaterialPageRoute(builder: (context) => SearchRecipe()));
+                        break;
+                      
                     }
                   },
                 );
