@@ -4,6 +4,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
+import '../Home.dart';
+
 class CreateRecipe extends StatefulWidget {
   _CreateRecipeState createState() => _CreateRecipeState();
 }
@@ -58,11 +60,11 @@ var ingredientNumber = 0;
 var directionNumber = 0;
 var ingredients = <Widget>[];
 var directions = <Widget>[];
-var ingredientsList = <String>[];
-var directionsList = <String>[];
+var ingredientList = <String>[];
+var directionList = <String>[];
+var filepath;
 
 class _CreateRecipeState extends State<CreateRecipe> {
-  var filepath;
   Item selectedUser1;
   Item selectedUser2;
   Item selectedUser3;
@@ -76,216 +78,245 @@ class _CreateRecipeState extends State<CreateRecipe> {
   Widget build(BuildContext context) {
     _ingredientsEditingController.addListener(() {});
     _directionEditingController.addListener(() {});
-    return Material(
-      elevation: 8.0,
-      child: Scaffold(
-        floatingActionButton: FloatingActionButton.extended(
-          onPressed: () {},
-          icon: Icon(Icons.save),
-          label: Text("Save"),
-        ),
-        appBar: AppBar(
-          title: Text("Create Recipe"),
-          backgroundColor: Colors.blue,
-        ),
-        body: Container(
-            color: Colors.white,
-            child: ListView(
-              children: [
-                Text("Recipe Name", style: style),
-                TextFormField(
-                  maxLines: 1,
-                  decoration: InputDecoration(hintText: "Ingredients For Recipe"),
-                  keyboardType: TextInputType.multiline,
-                  controller: _recipeNameEditingController,
-                  validator: (String inValue) {
-                    if (inValue.length == 0) {
-                      return "Please enter the Ingredients!";
-                    }
-                    return null;
-                  },
-                ),
-                Row(
-                  children: [
-                    Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Text(
-                          "Prep Time",
-                          style: style,
-                        ),
-                        DropdownButton<Item>(
-                          style: style,
-                          hint: Text("Minutes", style: style),
-                          value: selectedUser1,
-                          onChanged: (Item value) {
-                            setState(() {
-                              selectedUser1 = value;
-                            });
-                          },
-                          items: timeCounter.map((Item user) {
-                            return DropdownMenuItem<Item>(
-                              value: user,
-                              child: Row(
-                                children: <Widget>[
-                                  Text(
-                                    user.time,
-                                    style: style,
-                                  ),
-                                ],
-                              ),
-                            );
-                          }).toList(),
-                        ),
-                      ],
-                    ),
-                    Column(
-                      children: [
-                        Text("Meal Time", style: style),
-                        DropdownButton<Item>(
-                          style: style,
-                          hint: Text("Minutes", style: style),
-                          value: selectedUser2,
-                          onChanged: (Item value) {
-                            setState(() {
-                              selectedUser2 = value;
-                            });
-                          },
-                          items: timeCounter.map((Item user) {
-                            return DropdownMenuItem<Item>(
-                              value: user,
-                              child: Row(
-                                children: <Widget>[
-                                  Text(
-                                    user.time,
-                                    style: style,
-                                  ),
-                                ],
-                              ),
-                            );
-                          }).toList(),
-                        )
-                      ],
-                    ),
-                    Column(
-                      children: [
-                        Text("Total Time", style: style),
-                        DropdownButton<Item>(
-                          style: style,
-                          hint: Text("Minutes", style: style),
-                          value: selectedUser3,
-                          onChanged: (Item value) {
-                            setState(() {
-                              selectedUser3 = value;
-                            });
-                          },
-                          items: timeCounter.map((Item user) {
-                            return DropdownMenuItem<Item>(
-                              value: user,
-                              child: Row(
-                                children: <Widget>[
-                                  Text(
-                                    user.time,
-                                    style: style,
-                                  ),
-                                ],
-                              ),
-                            );
-                          }).toList(),
-                        ),
-                      ],
-                    )
-                  ],
-                ),
-                Column(
-                  children: [
-                    Text(
-                      "Ingredients",
-                      style: style,
-                    ),
-                    ListView.builder(
-                      scrollDirection: Axis.vertical,
-                      shrinkWrap: true,
-                      itemCount: ingredients.length,
-                      itemBuilder: (context, index) {
-                        return ingredients[index];
-                      },
-                    ),
-                    TextFormField(
-                      maxLines: 2,
-                      decoration: InputDecoration(hintText: "Ingredients For Recipe"),
-                      keyboardType: TextInputType.multiline,
-                      controller: _ingredientsEditingController,
-                      validator: (String inValue) {
-                        if (inValue.length == 0) {
-                          return "Please enter the Ingredients!";
-                        }
-                        return null;
-                      },
-                    ),
-                    RaisedButton(
-                      shape: StadiumBorder(),
-                      color: Colors.blue,
-                      onPressed: () {
-                        addNewIngredient(ingredientNumber + 1);
-                      },
-                      child: Icon(Icons.add),
-                    ),
-                  ],
-                ),
-                Column(
-                  children: [
-                    Text(
-                      "Direction",
-                      style: style,
-                    ),
-                    ListView.builder(
-                      scrollDirection: Axis.vertical,
-                      shrinkWrap: true,
-                      itemCount: directions.length,
-                      itemBuilder: (context, index) {
-                        return directions[index];
-                      },
-                    ),
-                    TextFormField(
-                      maxLines: 2,
-                      decoration: InputDecoration(hintText: "Direction For Recipe"),
-                      keyboardType: TextInputType.multiline,
-                      controller: _directionEditingController,
-                      validator: (String inValue) {
-                        if (inValue.length == 0) {
-                          return "Please enter the directions!";
-                        }
-                        return null;
-                      },
-                    ),
-                    RaisedButton(
-                      shape: StadiumBorder(),
-                      color: Colors.blue,
-                      onPressed: () {
-                        addNewDirection(directionNumber + 1);
-                      },
-                      child: Icon(Icons.add),
-                    ),
-                  ],
-                ),
-                filepath == null
-                    ? SizedBox()
-                    : Image.file(
-                        File(filepath),
-                        height: 500,
-                        width: 500,
+    return new WillPopScope(
+      onWillPop: () async {
+        filepath = null;
+        ingredientNumber = 0;
+        directionNumber = 0;
+        ingredients = <Widget>[];
+        directions = <Widget>[];
+        return true;
+      },
+      child: Material(
+        elevation: 8.0,
+        child: Scaffold(
+          floatingActionButton: FloatingActionButton.extended(
+            onPressed: () {
+              filepath = null;
+              ingredientNumber = 0;
+              directionNumber = 0;
+              ingredients = <Widget>[];
+              directions = <Widget>[];
+              //TODO save created recipe here
+              Navigator.pop(context, MaterialPageRoute(builder: (context) => Home()));
+            },
+            icon: Icon(Icons.save),
+            label: Text("Save"),
+          ),
+          appBar: AppBar(
+            leading: IconButton(
+              icon: Icon(Icons.arrow_back),
+              onPressed: () {
+                filepath = null;
+                ingredientNumber = 0;
+                directionNumber = 0;
+                ingredients = <Widget>[];
+                directions = <Widget>[];
+                Navigator.pop(context, MaterialPageRoute(builder: (context) => Home()));
+              },
+            ),
+            title: Text("Create Recipe"),
+            backgroundColor: Colors.blue,
+          ),
+          body: Container(
+              color: Colors.white,
+              child: ListView(
+                children: [
+                  Text("Recipe Name", style: style),
+                  TextFormField(
+                    maxLines: 1,
+                    decoration: InputDecoration(hintText: "Ingredients For Recipe"),
+                    keyboardType: TextInputType.multiline,
+                    controller: _recipeNameEditingController,
+                    validator: (String inValue) {
+                      if (inValue.length == 0) {
+                        return "Please enter the Ingredients!";
+                      }
+                      return null;
+                    },
+                  ),
+                  Row(
+                    children: [
+                      Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Text(
+                            "Prep Time",
+                            style: style,
+                          ),
+                          DropdownButton<Item>(
+                            style: style,
+                            hint: Text("Minutes", style: style),
+                            value: selectedUser1,
+                            onChanged: (Item value) {
+                              setState(() {
+                                selectedUser1 = value;
+                              });
+                            },
+                            items: timeCounter.map((Item user) {
+                              return DropdownMenuItem<Item>(
+                                value: user,
+                                child: Row(
+                                  children: <Widget>[
+                                    Text(
+                                      user.time,
+                                      style: style,
+                                    ),
+                                  ],
+                                ),
+                              );
+                            }).toList(),
+                          ),
+                        ],
                       ),
-                RaisedButton(
-                  shape: StadiumBorder(),
-                  color: Colors.blue,
-                  onPressed: () {
-                    _showOptions(context);
-                  },
-                  child: Icon(Icons.camera),
-                ),
-              ],
-            )),
+                      Column(
+                        children: [
+                          Text("Meal Time", style: style),
+                          DropdownButton<Item>(
+                            style: style,
+                            hint: Text("Minutes", style: style),
+                            value: selectedUser2,
+                            onChanged: (Item value) {
+                              setState(() {
+                                selectedUser2 = value;
+                              });
+                            },
+                            items: timeCounter.map((Item user) {
+                              return DropdownMenuItem<Item>(
+                                value: user,
+                                child: Row(
+                                  children: <Widget>[
+                                    Text(
+                                      user.time,
+                                      style: style,
+                                    ),
+                                  ],
+                                ),
+                              );
+                            }).toList(),
+                          )
+                        ],
+                      ),
+                      Column(
+                        children: [
+                          Text("Total Time", style: style),
+                          DropdownButton<Item>(
+                            style: style,
+                            hint: Text("Minutes", style: style),
+                            value: selectedUser3,
+                            onChanged: (Item value) {
+                              setState(() {
+                                selectedUser3 = value;
+                              });
+                            },
+                            items: timeCounter.map((Item user) {
+                              return DropdownMenuItem<Item>(
+                                value: user,
+                                child: Row(
+                                  children: <Widget>[
+                                    Text(
+                                      user.time,
+                                      style: style,
+                                    ),
+                                  ],
+                                ),
+                              );
+                            }).toList(),
+                          ),
+                        ],
+                      )
+                    ],
+                  ),
+                  Column(
+                    children: [
+                      Text(
+                        "Ingredients",
+                        style: style,
+                      ),
+                      ListView.builder(
+                        scrollDirection: Axis.vertical,
+                        shrinkWrap: true,
+                        itemCount: ingredients.length,
+                        itemBuilder: (context, index) {
+                          return ingredients[index];
+                        },
+                      ),
+                      TextFormField(
+                        maxLines: 2,
+                        decoration: InputDecoration(hintText: "Ingredients For Recipe"),
+                        keyboardType: TextInputType.multiline,
+                        controller: _ingredientsEditingController,
+                        validator: (String inValue) {
+                          if (inValue.length == 0) {
+                            return "Please enter the Ingredients!";
+                          }
+                          return null;
+                        },
+                      ),
+                      RaisedButton(
+                        shape: StadiumBorder(),
+                        color: Colors.blue,
+                        onPressed: () {
+                          addNewIngredient(ingredientNumber + 1);
+                        },
+                        child: Icon(Icons.add),
+                      ),
+                    ],
+                  ),
+                  Column(
+                    children: [
+                      Text(
+                        "Direction",
+                        style: style,
+                      ),
+                      ListView.builder(
+                        scrollDirection: Axis.vertical,
+                        shrinkWrap: true,
+                        itemCount: directions.length,
+                        itemBuilder: (context, index) {
+                          return directions[index];
+                        },
+                      ),
+                      TextFormField(
+                        maxLines: 2,
+                        decoration: InputDecoration(hintText: "Direction For Recipe"),
+                        keyboardType: TextInputType.multiline,
+                        controller: _directionEditingController,
+                        validator: (String inValue) {
+                          if (inValue.length == 0) {
+                            return "Please enter the directions!";
+                          }
+                          return null;
+                        },
+                      ),
+                      RaisedButton(
+                        shape: StadiumBorder(),
+                        color: Colors.blue,
+                        onPressed: () {
+                          addNewDirection(directionNumber + 1);
+                        },
+                        child: Icon(Icons.add),
+                      ),
+                    ],
+                  ),
+                  filepath == null
+                      ? SizedBox()
+                      : Image.file(
+                          File(filepath),
+                          height: 500,
+                          width: 500,
+                        ),
+                  RaisedButton(
+                    shape: StadiumBorder(),
+                    color: Colors.blue,
+                    onPressed: () {
+                      _showOptions(context);
+                    },
+                    child: Icon(Icons.camera),
+                  ),
+                ],
+              )),
+        ),
       ),
     );
   }
@@ -333,7 +364,7 @@ class _CreateRecipeState extends State<CreateRecipe> {
   void addNewIngredient(int i) {
     setState(() {
       ingredientNumber = i;
-      ingredientsList.add(_ingredientsEditingController.text);
+      ingredientList.add(_ingredientsEditingController.text);
       ingredients.add(Text("$i. ${_ingredientsEditingController.text}", style: style));
       _ingredientsEditingController.text = "";
     });
@@ -342,7 +373,7 @@ class _CreateRecipeState extends State<CreateRecipe> {
   void addNewDirection(int i) {
     setState(() {
       directionNumber = i;
-      directionsList.add(_directionEditingController.text);
+      directionList.add(_directionEditingController.text);
       directions.add(Text("$i. ${_directionEditingController.text}", style: style));
       _ingredientsEditingController.text = "";
     });
