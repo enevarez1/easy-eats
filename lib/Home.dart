@@ -70,7 +70,7 @@ class _HomePageState extends State<HomePage> {
                     print(index);
                     switch (index) {
                       case 0:
-                        Navigator.push(context, MaterialPageRoute(builder: (context) => Home()));
+                        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => Home()));
                         break;
                     }
                   },
