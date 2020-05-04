@@ -26,7 +26,7 @@ class HomePage extends StatefulWidget {
   _HomePageState createState() => _HomePageState();
 }
 
-var recipeIngredients = <String>["Step 1", "Step 2"];
+var recipeIngredients = <String>["Ingredient 1", "Ingredient 2"];
 
 class _HomePageState extends State<HomePage> {
   var recipeList = <Recipe>[];
@@ -70,7 +70,8 @@ class _HomePageState extends State<HomePage> {
                     print(index);
                     switch (index) {
                       case 0:
-                        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => Home()));
+                        Navigator.pushReplacement(
+                            context, MaterialPageRoute(builder: (context) => Home()));
                         break;
                     }
                   },
