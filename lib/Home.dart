@@ -7,7 +7,24 @@ import 'package:flutter/material.dart';
 import 'model/NavigationModel.dart';
 
 var recipes = <Recipe>[];
-
+var _recipeListItems = [
+  "Chicken",
+  "Burrito",
+  "Ice Cream",
+  "Poptart",
+  "Strudel",
+  "Bacon",
+  "Cheon",
+  "Elsa",
+  "Ben",
+  "Apple",
+  "Leslie",
+  "Strawberries",
+  "Cherries",
+  "Salad",
+  "Pizza",
+  "Meatloaf"
+];
 class Home extends StatelessWidget {
   // This widget is the root of your application.
   @override
@@ -99,13 +116,13 @@ class _HomePageState extends State<HomePage> {
           ListView.builder(
             itemBuilder: (context, index) {
               return ListTile(
-                title: Text('${recipeList[index].recipeName}'),
-                subtitle: Text('${recipeList[index].recipeDescription}'),
+                title: Text('${_recipeListItems[index]}'),
+                subtitle: Text('${_recipeListItems[index]}'),
                 leading: null,
                 onTap: () {},
               );
             },
-            itemCount: recipeList.length,
+            itemCount: _recipeListItems.length,
           ),
         ],
       ),
