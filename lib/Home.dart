@@ -25,6 +25,7 @@ var _recipeListItems = [
   "Pizza",
   "Meatloaf"
 ];
+
 class Home extends StatelessWidget {
   // This widget is the root of your application.
   @override
@@ -89,14 +90,12 @@ class _HomePageState extends State<HomePage> {
                     print(index);
                     switch (index) {
                       case 0:
-                        Navigator.pushReplacement(
-                            context, MaterialPageRoute(builder: (context) => Home()));
+                        Navigator.push(context, MaterialPageRoute(builder: (context) => Home()));
                         break;
-                      case 1: 
-                        Navigator.pushReplacement(
+                      case 1:
+                        Navigator.push(
                             context, MaterialPageRoute(builder: (context) => SearchRecipe()));
                         break;
-                      
                     }
                   },
                 );
