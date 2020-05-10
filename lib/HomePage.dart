@@ -3,57 +3,27 @@ import 'package:easy_eats/recipe/Recipe.dart';
 import 'package:easy_eats/recipe/SearchRecipe.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
 
 import 'model/NavigationModel.dart';
 
 var recipes = <Recipe>[];
-var _recipeListItems = [
-  "Chicken",
-  "Burrito",
-  "Ice Cream",
-  "Poptart",
-  "Strudel",
-  "Bacon",
-  "Cheon",
-  "Elsa",
-  "Ben",
-  "Apple",
-  "Leslie",
-  "Strawberries",
-  "Cherries",
-  "Salad",
-  "Pizza",
-  "Meatloaf"
-];
-
-class Home extends StatelessWidget {
-  Home([Recipe toSave]){}
-
-  // This widget is the root of your application.
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Home',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      home: HomePage(),
-    );
-  }
-}
 
 class HomePage extends StatefulWidget {
+  Recipe currentRecipe;
+
+  HomePage({this.currentRecipe}) {}
+
   @override
-  _HomePageState createState() => _HomePageState();
+  _HomePageState createState() => _HomePageState(currentRecipe: currentRecipe);
 }
 
-var recipeIngredients = <String>["Step 1", "Step 2"];
-var cheon = "My best friend";
-
 class _HomePageState extends State<HomePage> {
-  var recipeList = <Recipe>[];
   var username = "Username";
   var email = "utepstudent@miners.utep.edu";
+  Recipe currentRecipe;
+
+  _HomePageState({this.currentRecipe});
 
   @override
   Widget build(BuildContext context) {
@@ -76,7 +46,7 @@ class _HomePageState extends State<HomePage> {
               backgroundColor:
                   Theme.of(context).platform == TargetPlatform.iOS ? Colors.white : Colors.white,
               child: Text(
-                username.substring(0,1),
+                username.substring(0, 1),
                 style: TextStyle(fontSize: 40.0),
               ),
             ),
@@ -94,7 +64,8 @@ class _HomePageState extends State<HomePage> {
                     print(index);
                     switch (index) {
                       case 0:
-                        Navigator.push(context, MaterialPageRoute(builder: (context) => Home()));
+                        Navigator.push(
+                            context, MaterialPageRoute(builder: (context) => HomePage()));
                         break;
                       case 1:
                         Navigator.push(
@@ -118,14 +89,30 @@ class _HomePageState extends State<HomePage> {
         children: <Widget>[
           ListView.builder(
             itemBuilder: (context, index) {
-              return ListTile(
-                title: Text('${_recipeListItems[index]}'),
-                subtitle: Text('${_recipeListItems[index]}'),
-                leading: null,
-                onTap: () {},
+              return Slidable(
+                actionPane: SlidableDrawerActionPane(),
+                secondaryActions: [
+                  //option to delete
+                  IconSlideAction(
+                      caption: "Delete",
+                      color: Colors.red,
+                      icon: Icons.delete,
+                      onTap: () {
+                        setState(() {
+                          print(index);
+                          recipes.removeAt(index);
+                        });
+                      }),
+                ],
+                child: ListTile(
+                  title: Text('${recipes[index].recipeName}'),
+                  subtitle: Text('${recipes[index].recipeDescription}'),
+                  leading: null,
+                  onTap: () {},
+                ),
               );
             },
-            itemCount: _recipeListItems.length,
+            itemCount: recipes.length,
           ),
         ],
       ),

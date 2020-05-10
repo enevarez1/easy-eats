@@ -6,9 +6,9 @@ class Recipe {
   String recipeDescription;
   List<dynamic> recipeIngredients;
   List<dynamic> recipeSteps;
-  num recipePrepTime;
-  num recipeCookTime;
-  num recipeTotalTime;
+  int recipePrepTime;
+  int recipeCookTime;
+  int recipeTotalTime;
   var imageFilepath;
 
   Recipe();

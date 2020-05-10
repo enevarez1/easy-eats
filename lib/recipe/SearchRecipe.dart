@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-import '../Home.dart';
+import '../HomePage.dart';
 
 class SearchRecipe extends StatefulWidget {
   @override
@@ -63,7 +63,7 @@ class _SearchState extends State<SearchRecipe> {
   Widget build(BuildContext context) {
     return new WillPopScope(
       onWillPop: () async {
-        Navigator.pop(context, MaterialPageRoute(builder: (context) => Home()));
+        Navigator.pop(context, MaterialPageRoute(builder: (context) => HomePage()));
         return true;
       },
       child: Scaffold(
@@ -71,7 +71,7 @@ class _SearchState extends State<SearchRecipe> {
           leading: IconButton(
             icon: Icon(Icons.arrow_back),
             onPressed: () {
-              Navigator.pop(context, MaterialPageRoute(builder: (context) => Home()));
+              Navigator.pop(context, MaterialPageRoute(builder: (context) => HomePage()));
             },
           ),
           title: new Text("Search"),

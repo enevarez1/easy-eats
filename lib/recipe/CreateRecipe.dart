@@ -4,7 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
-import '../Home.dart';
+import '../HomePage.dart';
 import 'Recipe.dart';
 
 class CreateRecipe extends StatefulWidget {
@@ -39,7 +39,7 @@ class _CreateRecipeState extends State<CreateRecipe> {
       onWillPop: () async {
         //back button press.
         _clearWidgetData();
-        Navigator.pop(context, MaterialPageRoute(builder: (context) => Home()));
+        Navigator.pop(context, MaterialPageRoute(builder: (context) => HomePage()));
         return true; //allows the user to go back if true
       },
       child: Material(
@@ -48,9 +48,14 @@ class _CreateRecipeState extends State<CreateRecipe> {
           floatingActionButton: FloatingActionButton.extended(
             onPressed: () {
               //Save button pressed
-              Recipe toSave = _saveRecipe();
+              Recipe currentRecipe = _saveRecipe();
               _clearWidgetData();
-              Navigator.pop(context, MaterialPageRoute(builder: (context) => Home(toSave)));
+              Navigator.pop(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => HomePage(
+                            currentRecipe: currentRecipe,
+                          )));
             },
             icon: Icon(Icons.save),
             label: Text("Save"),
@@ -60,7 +65,7 @@ class _CreateRecipeState extends State<CreateRecipe> {
               icon: Icon(Icons.arrow_back),
               onPressed: () {
                 _clearWidgetData();
-                Navigator.pop(context, MaterialPageRoute(builder: (context) => Home()));
+                Navigator.pop(context, MaterialPageRoute(builder: (context) => HomePage()));
               },
             ),
             title: Text("Create Recipe"),
@@ -126,25 +131,27 @@ class _CreateRecipeState extends State<CreateRecipe> {
   }
 
   void _showOptions(BuildContext context) {
+    Widget bottomListTile(IconData iconData) {
+      return ListTile(
+          onTap: () {
+            if (iconData == Icons.photo_camera) {
+              _showPhotoCamera();
+            } else {
+              _showPhotoLibrary();
+            }
+          },
+          leading: Icon(iconData),
+          title: Text("Take a picture from camera"));
+    }
+
     showModalBottomSheet(
         context: context,
         builder: (context) {
           return Container(
-              height: 150,
+              height: 120,
               child: Column(children: <Widget>[
-                ListTile(
-                    onTap: () {
-                      _showPhotoCamera();
-                    },
-                    leading: Icon(Icons.photo_camera),
-                    title: Text("Take a picture from camera")),
-                ListTile(
-                    onTap: () {
-                      Navigator.pop(context);
-                      _showPhotoLibrary();
-                    },
-                    leading: Icon(Icons.photo_library),
-                    title: Text("Choose from photo library"))
+                bottomListTile(Icons.photo_camera),
+                bottomListTile(Icons.photo_library)
               ]));
         });
   }
@@ -214,7 +221,7 @@ class _CreateRecipeState extends State<CreateRecipe> {
                 },
               ),
         TextFormField(
-          maxLines: 2,
+          maxLines: null,
           decoration: InputDecoration(hintText: "$typeName For Recipe"),
           keyboardType: TextInputType.multiline,
           controller: type ? _ingredientsEditingController : _directionEditingController,
@@ -310,7 +317,6 @@ class _CreateRecipeState extends State<CreateRecipe> {
     currentRecipe.recipeSteps = directionsList;
     currentRecipe.recipePrepTime = selectedUser1;
     currentRecipe.recipeCookTime = selectedUser2;
-    currentRecipe.recipeTotalTime = selectedUser1 + selectedUser2;
     currentRecipe.imageFilepath = imageFilepath;
     return currentRecipe;
   }
