@@ -50,6 +50,8 @@ var cheon = "My best friend";
 
 class _HomePageState extends State<HomePage> {
   var recipeList = <Recipe>[];
+  var username = "Username";
+  var email = "utepstudent@miners.utep.edu";
 
   @override
   Widget build(BuildContext context) {
@@ -66,13 +68,13 @@ class _HomePageState extends State<HomePage> {
           child: ListView(
         children: [
           UserAccountsDrawerHeader(
-            accountName: Text("Username"),
-            accountEmail: Text("utepstudent@miners.utep.edu"),
+            accountName: Text(username),
+            accountEmail: Text(email),
             currentAccountPicture: CircleAvatar(
               backgroundColor:
                   Theme.of(context).platform == TargetPlatform.iOS ? Colors.white : Colors.white,
               child: Text(
-                "A",
+                username.substring(0,1),
                 style: TextStyle(fontSize: 40.0),
               ),
             ),
