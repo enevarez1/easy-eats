@@ -12,4 +12,5 @@ List<NavigationModel> navigationItems = [
   NavigationModel(title: "Home", icon: Icons.home),
   NavigationModel(title: "Search", icon: Icons.search),
   NavigationModel(title: "Settings", icon: Icons.settings),
+  NavigationModel(title: "Random Recipe", icon: Icons.sync),
 ];

@@ -27,6 +27,8 @@ var _recipeListItems = [
 ];
 
 class Home extends StatelessWidget {
+  Home([Recipe toSave]){}
+
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
