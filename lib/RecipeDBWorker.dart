@@ -117,6 +117,6 @@ class RecipeDBWorker {
   /// @return     Future.
   Future delete(int inID) async {
     Database db = await database;
-    return await db.delete("notes", where: "id = ?", whereArgs: [inID]);
+    return await db.delete("recipes", where: "id = ?", whereArgs: [inID]);
   }
 }
