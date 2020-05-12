@@ -1,3 +1,5 @@
+import "dart:math";
+
 import 'package:easy_eats/recipe/CreateRecipe.dart';
 import 'package:easy_eats/recipe/Recipe.dart';
 import 'package:easy_eats/recipe/SearchRecipe.dart';
@@ -69,14 +71,23 @@ class _HomePageState extends State<HomePage> {
                   leading: Icon(navigationItems[index].icon),
                   onTap: () {
                     print(index);
+                    Navigator.pop(context);
                     switch (index) {
                       case 0:
                         Navigator.push(
-                            context, MaterialPageRoute(builder: (context) => HomePage()));
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => SearchRecipe(
+                                      recipes: recipes,
+                                    )));
                         break;
                       case 1:
+                        final _random = new Random();
                         Navigator.push(
-                            context, MaterialPageRoute(builder: (context) => SearchRecipe()));
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => ViewRecipe(
+                                    currentRecipe: recipes[_random.nextInt(recipes.length)])));
                         break;
                     }
                   },

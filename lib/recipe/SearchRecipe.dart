@@ -2,36 +2,30 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import '../HomePage.dart';
+import 'ViewRecipe.dart';
 
 class SearchRecipe extends StatefulWidget {
+  var recipes;
+
+  SearchRecipe({this.recipes});
+
   @override
-  _SearchState createState() => _SearchState();
+  _SearchState createState() => _SearchState(recipes: recipes);
 }
 
 class _SearchState extends State<SearchRecipe> {
   TextEditingController editingController = TextEditingController();
-  var duplicateItems = [
-    "Chicken",
-    "Burrito",
-    "Ice Cream",
-    "Poptart",
-    "Strudel",
-    "Bacon",
-    "Cheon",
-    "Elsa",
-    "Ben",
-    "Apple",
-    "Leslie",
-    "Strawberries",
-    "Cherries",
-    "Salad",
-    "Pizza",
-    "Meatloaf"
-  ];
+  var duplicateItems = <String>[];
   var items = List<String>();
+  var recipes;
+
+  _SearchState({this.recipes});
 
   @override
   void initState() {
+    recipes.forEach((element) {
+      duplicateItems.add(element.recipeName);
+    });
     items.addAll(duplicateItems);
     super.initState();
   }
@@ -100,7 +94,12 @@ class _SearchState extends State<SearchRecipe> {
                   itemCount: items.length,
                   itemBuilder: (context, index) {
                     return ListTile(
-                      onTap: () {},
+                      onTap: () {
+                        Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => ViewRecipe(currentRecipe: recipes[index])));
+                      },
                       title: Text('${items[index]}'),
                     );
                   },
