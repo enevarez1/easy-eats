@@ -1,6 +1,7 @@
 import 'package:easy_eats/recipe/CreateRecipe.dart';
 import 'package:easy_eats/recipe/Recipe.dart';
 import 'package:easy_eats/recipe/SearchRecipe.dart';
+import 'package:easy_eats/recipe/ViewRecipe.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
@@ -19,7 +20,7 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   var username = "Username";
   var email = "utepstudent@miners.utep.edu";
-  Recipe currentRecipe;
+  var currentRecipe;
 
   _HomePageState();
 
@@ -33,7 +34,9 @@ class _HomePageState extends State<HomePage> {
             MaterialPageRoute(builder: (context) => CreateRecipe()),
           );
           setState(() {
-            recipes.add(currentRecipe);
+            if (currentRecipe != null) {
+              recipes.add(currentRecipe);
+            }
           });
         },
         backgroundColor: Colors.blue,
@@ -109,23 +112,17 @@ class _HomePageState extends State<HomePage> {
               title: Text('${recipes[index].recipeName}'),
               subtitle: Text('${recipes[index].recipeDescription}'),
               leading: null,
-              onTap: () {},
+              onTap: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => ViewRecipe(currentRecipe: recipes[index])));
+              },
             ),
           );
         },
         itemCount: recipes.length,
       ),
     );
-  }
-
-  Recipe _dummyRecipe() {
-    Recipe currentRecipe;
-    currentRecipe.recipeName = "Name";
-    currentRecipe.recipeDescription = "Description";
-    currentRecipe.recipeIngredients = ingredientsList;
-    currentRecipe.recipeSteps = directionsList;
-    currentRecipe.recipePrepTime = 20;
-    currentRecipe.recipeCookTime = 25;
-    return currentRecipe;
   }
 }

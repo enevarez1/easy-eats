@@ -7,10 +7,6 @@ import 'package:image_picker/image_picker.dart';
 import '../HomePage.dart';
 import 'Recipe.dart';
 
-class CreateRecipe extends StatefulWidget {
-  _CreateRecipeState createState() => _CreateRecipeState();
-}
-
 TextStyle style = TextStyle(color: Colors.black);
 
 String recipeName;
@@ -25,6 +21,10 @@ var imageFilepath;
 int selectedUser1;
 int selectedUser2;
 var timeList = new List<int>.generate(12, (i) => (i + 1) * 5);
+
+class CreateRecipe extends StatefulWidget {
+  _CreateRecipeState createState() => _CreateRecipeState();
+}
 
 class _CreateRecipeState extends State<CreateRecipe> {
   /// Controllers for TextFields.
