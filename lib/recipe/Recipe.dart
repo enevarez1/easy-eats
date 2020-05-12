@@ -2,16 +2,14 @@ import 'dart:core';
 
 class Recipe {
   int id;
-  String recipeName;
-  String recipeDescription;
+  String recipeName = "Name";
+  String recipeDescription = "Description";
   List<dynamic> recipeIngredients;
   List<dynamic> recipeSteps;
-  int recipePrepTime;
-  int recipeCookTime;
-  int recipeTotalTime;
-  var imageFilepath;
-
-  Recipe();
+  int recipePrepTime = 20;
+  int recipeCookTime = 25;
+  int recipeTotalTime = 55;
+  var imageFilepath = "";
 
   String toString() {
     return "Name: $recipeName  Description: $recipeDescription  Prep time: $recipePrepTime  Cook time: $recipeCookTime";

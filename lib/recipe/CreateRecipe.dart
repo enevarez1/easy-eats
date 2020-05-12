@@ -48,14 +48,9 @@ class _CreateRecipeState extends State<CreateRecipe> {
           floatingActionButton: FloatingActionButton.extended(
             onPressed: () {
               //Save button pressed
-              Recipe currentRecipe = _saveRecipe();
+              Recipe current = _saveRecipe();
               _clearWidgetData();
-              Navigator.pop(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => HomePage(
-                            currentRecipe: currentRecipe,
-                          )));
+              Navigator.pop(context, current);
             },
             icon: Icon(Icons.save),
             label: Text("Save"),

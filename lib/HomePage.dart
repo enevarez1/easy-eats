@@ -10,12 +10,10 @@ import 'model/NavigationModel.dart';
 var recipes = <Recipe>[];
 
 class HomePage extends StatefulWidget {
-  Recipe currentRecipe;
-
-  HomePage({this.currentRecipe}) {}
+  HomePage();
 
   @override
-  _HomePageState createState() => _HomePageState(currentRecipe: currentRecipe);
+  _HomePageState createState() => _HomePageState();
 }
 
 class _HomePageState extends State<HomePage> {
@@ -23,14 +21,20 @@ class _HomePageState extends State<HomePage> {
   var email = "utepstudent@miners.utep.edu";
   Recipe currentRecipe;
 
-  _HomePageState({this.currentRecipe});
+  _HomePageState();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       floatingActionButton: FloatingActionButton.extended(
-        onPressed: () {
-          Navigator.push(context, MaterialPageRoute(builder: (context) => CreateRecipe()));
+        onPressed: () async {
+          currentRecipe = await Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => CreateRecipe()),
+          );
+          setState(() {
+            recipes.add(currentRecipe);
+          });
         },
         backgroundColor: Colors.blue,
         icon: Icon(Icons.add),
@@ -85,37 +89,43 @@ class _HomePageState extends State<HomePage> {
         title: Text("Easy Eats"),
         centerTitle: true,
       ),
-      body: Stack(
-        children: <Widget>[
-          ListView.builder(
-            itemBuilder: (context, index) {
-              return Slidable(
-                actionPane: SlidableDrawerActionPane(),
-                secondaryActions: [
-                  //option to delete
-                  IconSlideAction(
-                      caption: "Delete",
-                      color: Colors.red,
-                      icon: Icons.delete,
-                      onTap: () {
-                        setState(() {
-                          print(index);
-                          recipes.removeAt(index);
-                        });
-                      }),
-                ],
-                child: ListTile(
-                  title: Text('${recipes[index].recipeName}'),
-                  subtitle: Text('${recipes[index].recipeDescription}'),
-                  leading: null,
-                  onTap: () {},
-                ),
-              );
-            },
-            itemCount: recipes.length,
-          ),
-        ],
+      body: ListView.builder(
+        itemBuilder: (context, index) {
+          return Slidable(
+            actionPane: SlidableDrawerActionPane(),
+            secondaryActions: [
+              //option to delete
+              IconSlideAction(
+                  caption: "Delete",
+                  color: Colors.red,
+                  icon: Icons.delete,
+                  onTap: () {
+                    setState(() {
+                      recipes.removeAt(index);
+                    });
+                  }),
+            ],
+            child: ListTile(
+              title: Text('${recipes[index].recipeName}'),
+              subtitle: Text('${recipes[index].recipeDescription}'),
+              leading: null,
+              onTap: () {},
+            ),
+          );
+        },
+        itemCount: recipes.length,
       ),
     );
+  }
+
+  Recipe _dummyRecipe() {
+    Recipe currentRecipe;
+    currentRecipe.recipeName = "Name";
+    currentRecipe.recipeDescription = "Description";
+    currentRecipe.recipeIngredients = ingredientsList;
+    currentRecipe.recipeSteps = directionsList;
+    currentRecipe.recipePrepTime = 20;
+    currentRecipe.recipeCookTime = 25;
+    return currentRecipe;
   }
 }
