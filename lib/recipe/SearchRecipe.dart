@@ -98,7 +98,8 @@ class _SearchState extends State<SearchRecipe> {
                         Navigator.pushReplacement(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => ViewRecipe(currentRecipe: recipes[duplicateItems.indexOf(items[index])])));
+                                builder: (context) => ViewRecipe(
+                                    currentRecipe: recipes[duplicateItems.indexOf(items[index])])));
                       },
                       title: Text('${items[index]}'),
                     );

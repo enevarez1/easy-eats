@@ -2,11 +2,11 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:path_provider/path_provider.dart';
-import "utils.dart" as utils;
+
 import 'HomePage.dart';
+import "utils.dart" as utils;
 
 void main() {
-
   WidgetsFlutterBinding.ensureInitialized();
 
   print("## main(): FlutterBook Starting");
@@ -18,7 +18,6 @@ void main() {
   }
 
   startMeUp();
-
 }
 
 class Home extends StatelessWidget {

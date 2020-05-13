@@ -8,7 +8,7 @@ class NavigationModel {
   NavigationModel({this.title, this.icon});
 }
 
-List<NavigationModel> navigationItems = [
+List<NavigationModel> navigationIItems = [
   NavigationModel(title: "Search", icon: Icons.search),
   NavigationModel(title: "Random Recipe", icon: Icons.sync),
 ];

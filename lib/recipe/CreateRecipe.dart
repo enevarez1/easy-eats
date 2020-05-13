@@ -326,11 +326,9 @@ class _CreateRecipeState extends State<CreateRecipe> {
     String steps = jsonEncode(currentRecipe.recipeIngredients);
     debugPrint(" Steps JSON version $steps");
 
-
     await RecipeDBWorker.db.create(currentRecipe, ingredients, steps);
 
     return currentRecipe;
-
   }
 
   ///Cleans the page so when coming back into this page, nothing is populated

@@ -1,14 +1,14 @@
 import 'dart:io';
 
-import 'package:easy_eats/recipe/CreateRecipe.dart';
 import 'package:easy_eats/recipe/Recipe.dart';
 import "package:path/path.dart";
-import 'package:path_provider/path_provider.dart';
 import "package:sqflite/sqflite.dart";
+
 import "utils.dart" as utils;
+
 /// Database provider class for recipes.
 
-
+Directory docsDir;
 
 class RecipeDBWorker {
   /// Static instance and private constructor, since this is a singleton.
@@ -57,7 +57,7 @@ class RecipeDBWorker {
   Recipe recipeFromMap(Map inMap) {
     Recipe recipe = Recipe();
     recipe.id = inMap["id"];
-    recipe.recipeName  = inMap["recipeName"];
+    recipe.recipeName = inMap["recipeName"];
     recipe.recipeDescription = inMap["recipeDescription"];
     recipe.recipePrepTime = inMap["recipePrepTime"];
     recipe.recipeCookTime = inMap["recipeCookTime"];
@@ -101,19 +101,19 @@ class RecipeDBWorker {
     }
 
     // Insert into table.
-    return await db.rawInsert("INSERT INTO recipes (id, recipeName, recipeDescription, recipePrepTime, recipeCookTime, recipeTotalTime, recipeIngredients, recipeSteps, imageFilepath) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)", 
-      [
-        id,
-        recipe.recipeName,
-        recipe.recipeDescription,
-        recipe.recipePrepTime,
-        recipe.recipeCookTime,
-        recipe.recipeTotalTime,
-        ingredients,
-        steps,
-        recipe.imageFilepath
-      ]
-    );
+    return await db.rawInsert(
+        "INSERT INTO recipes (id, recipeName, recipeDescription, recipePrepTime, recipeCookTime, recipeTotalTime, recipeIngredients, recipeSteps, imageFilepath) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)",
+        [
+          id,
+          recipe.recipeName,
+          recipe.recipeDescription,
+          recipe.recipePrepTime,
+          recipe.recipeCookTime,
+          recipe.recipeTotalTime,
+          ingredients,
+          steps,
+          recipe.imageFilepath
+        ]);
   }
 
   /// Get a specific recipe.
