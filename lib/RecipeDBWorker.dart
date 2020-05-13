@@ -1,6 +1,8 @@
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:easy_eats/recipe/Recipe.dart';
+import 'package:flutter/cupertino.dart';
 import "package:path/path.dart";
 import "package:sqflite/sqflite.dart";
 
@@ -62,10 +64,11 @@ class RecipeDBWorker {
     recipe.recipePrepTime = inMap["recipePrepTime"];
     recipe.recipeCookTime = inMap["recipeCookTime"];
     recipe.recipeTotalTime = inMap["recipeTotalTime"];
-    //String ingredients = inMap["recipeIngredients"];
-    //recipe.recipeIngredients = json.
-    recipe.recipeIngredients = inMap["recipeIngredients"];
-    recipe.recipeSteps = inMap["recipeSteps"];
+    var ingredients = inMap["recipeIngredients"];
+    debugPrint("JSON ENCODE INGREDIENTS: ${json.decode(ingredients)}");
+    recipe.recipeIngredients = (json.decode(ingredients) as List).toList();
+    var steps = inMap["recipeSteps"];
+    recipe.recipeSteps = (json.decode(steps) as List).toList();
     recipe.imageFilepath = inMap["imageFilepath"];
     return recipe;
   }

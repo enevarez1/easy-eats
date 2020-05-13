@@ -1,5 +1,6 @@
 import "dart:math";
 
+import 'package:easy_eats/RecipeDBWorker.dart';
 import 'package:easy_eats/recipe/CreateRecipe.dart';
 import 'package:easy_eats/recipe/Recipe.dart';
 import 'package:easy_eats/recipe/SearchRecipe.dart';
@@ -10,11 +11,11 @@ import 'package:flutter_slidable/flutter_slidable.dart';
 
 import 'model/NavigationModel.dart';
 
-var recipes = <Recipe>[];
+List recipes = [];
+//var recipes = <Recipe>[];
 
 class HomePage extends StatefulWidget {
   HomePage();
-
   @override
   _HomePageState createState() => _HomePageState();
 }
@@ -28,6 +29,7 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+    loadData();
     return Scaffold(
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () async {
@@ -136,4 +138,8 @@ class _HomePageState extends State<HomePage> {
       ),
     );
   }
+}
+void loadData() async {
+  debugPrint("loadData() called");
+    recipes = await RecipeDBWorker.db.getAll();
 }
