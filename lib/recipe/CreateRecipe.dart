@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
@@ -5,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
 import '../HomePage.dart';
+import '../RecipeDBWorker.dart';
 import 'Recipe.dart';
 
 TextStyle style = TextStyle(color: Colors.black);
@@ -46,9 +48,11 @@ class _CreateRecipeState extends State<CreateRecipe> {
         elevation: 8.0,
         child: Scaffold(
           floatingActionButton: FloatingActionButton.extended(
-            onPressed: () {
+            onPressed: () async {
+              var current = new Recipe();
               //Save button pressed
-              Recipe current = _saveRecipe();
+              // Gonna enable this but testing Future<Recipe> current = _saveRecipe();
+              _saveRecipe();
               _clearWidgetData();
               Navigator.pop(context, current);
             },
@@ -290,6 +294,7 @@ class _CreateRecipeState extends State<CreateRecipe> {
     setState(() {
       ingredientNumber = i;
       ingredientsList.add(_ingredientsEditingController.text);
+      debugPrint("Ingredient debug ${_ingredientsEditingController.text}");
       ingredients.add(Text("$i. ${_ingredientsEditingController.text}", style: style));
       _ingredientsEditingController.text = "";
     });
@@ -299,12 +304,13 @@ class _CreateRecipeState extends State<CreateRecipe> {
     setState(() {
       directionNumber = i;
       directionsList.add(_directionEditingController.text);
+      debugPrint("Directions debug ${_directionEditingController.text}");
       directions.add(Text("$i. ${_directionEditingController.text}", style: style));
       _directionEditingController.text = "";
     });
   }
 
-  Recipe _saveRecipe() {
+  Future<Recipe> _saveRecipe() async {
     Recipe currentRecipe = Recipe();
     currentRecipe.recipeName = _recipeNameEditingController.text;
     currentRecipe.recipeDescription = _recipeDescriptionEditingController.text;
@@ -312,8 +318,19 @@ class _CreateRecipeState extends State<CreateRecipe> {
     currentRecipe.recipeSteps = directionsList;
     currentRecipe.recipePrepTime = selectedUser1;
     currentRecipe.recipeCookTime = selectedUser2;
-    currentRecipe.imageFilepath = imageFilepath;
+    //currentRecipe.imageFilepath = imageFilepath;
+
+    String ingredients = jsonEncode(currentRecipe.recipeSteps);
+    debugPrint(" Ingredients JSON version $ingredients");
+
+    String steps = jsonEncode(currentRecipe.recipeIngredients);
+    debugPrint(" Steps JSON version $steps");
+
+
+    await RecipeDBWorker.db.create(currentRecipe, ingredients, steps);
+
     return currentRecipe;
+
   }
 
   ///Cleans the page so when coming back into this page, nothing is populated
