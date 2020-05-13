@@ -62,8 +62,11 @@ class RecipeDBWorker {
     recipe.recipePrepTime = inMap["recipePrepTime"];
     recipe.recipeCookTime = inMap["recipeCookTime"];
     recipe.recipeTotalTime = inMap["recipeTotalTime"];
+    //String ingredients = inMap["recipeIngredients"];
+    //recipe.recipeIngredients = json.
     recipe.recipeIngredients = inMap["recipeIngredients"];
     recipe.recipeSteps = inMap["recipeSteps"];
+    recipe.imageFilepath = inMap["imageFilepath"];
     return recipe;
   }
 
@@ -79,6 +82,7 @@ class RecipeDBWorker {
     map["recipeTotalTime"] = recipe.recipeTotalTime;
     map["recipeIngredients"] = recipe.recipeIngredients;
     map["recipeSteps"] = recipe.recipeSteps;
+    map["imageFilepath"] = recipe.imageFilepath;
     return map;
   }
 
@@ -97,7 +101,7 @@ class RecipeDBWorker {
     }
 
     // Insert into table.
-    return await db.rawInsert("INSERT INTO recipes (id, recipeName, recipeDescription, recipePrepTime, recipeCookTime, recipeTotalTime, recipeIngredients, recipeSteps) VALUES (?, ?, ?, ?, ?, ?, ?, ?)", 
+    return await db.rawInsert("INSERT INTO recipes (id, recipeName, recipeDescription, recipePrepTime, recipeCookTime, recipeTotalTime, recipeIngredients, recipeSteps, imageFilepath) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)", 
       [
         id,
         recipe.recipeName,
@@ -106,7 +110,8 @@ class RecipeDBWorker {
         recipe.recipeCookTime,
         recipe.recipeTotalTime,
         ingredients,
-        steps
+        steps,
+        recipe.imageFilepath
       ]
     );
   }
