@@ -4,7 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import '../HomePage.dart';
-import 'Recipe.dart';
+import 'RecipeModel.dart';
 
 TextStyle style = TextStyle(color: Colors.black);
 String recipeName;

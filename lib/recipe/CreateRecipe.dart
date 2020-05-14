@@ -7,7 +7,7 @@ import 'package:image_picker/image_picker.dart';
 
 import '../HomePage.dart';
 import '../RecipeDBWorker.dart';
-import 'Recipe.dart';
+import 'RecipeModel.dart';
 
 TextStyle style = TextStyle(color: Colors.black);
 
@@ -51,8 +51,7 @@ class _CreateRecipeState extends State<CreateRecipe> {
             onPressed: () async {
               var current = new Recipe();
               //Save button pressed
-              // Gonna enable this but testing Future<Recipe> current = _saveRecipe();
-              _saveRecipe();
+              current = _saveRecipe();
               _clearWidgetData();
               Navigator.pop(context, current);
             },
@@ -130,17 +129,20 @@ class _CreateRecipeState extends State<CreateRecipe> {
   }
 
   void _showOptions(BuildContext context) {
+    String nameOfItem = "";
     Widget bottomListTile(IconData iconData) {
       return ListTile(
           onTap: () {
             if (iconData == Icons.photo_camera) {
+              nameOfItem = "camera";
               _showPhotoCamera();
             } else {
+              nameOfItem = "gallery";
               _showPhotoLibrary();
             }
           },
           leading: Icon(iconData),
-          title: Text("Take a picture from camera"));
+          title: Text("Take a picture from $nameOfItem"));
     }
 
     showModalBottomSheet(
@@ -310,7 +312,7 @@ class _CreateRecipeState extends State<CreateRecipe> {
     });
   }
 
-  Future<Recipe> _saveRecipe() async {
+  Recipe _saveRecipe() {
     Recipe currentRecipe = Recipe();
     currentRecipe.recipeName = _recipeNameEditingController.text;
     currentRecipe.recipeDescription = _recipeDescriptionEditingController.text;
@@ -318,17 +320,17 @@ class _CreateRecipeState extends State<CreateRecipe> {
     currentRecipe.recipeSteps = directionsList;
     currentRecipe.recipePrepTime = selectedUser1;
     currentRecipe.recipeCookTime = selectedUser2;
-    //currentRecipe.imageFilepath = imageFilepath;
+    currentRecipe.imageFilepath = imageFilepath;
+    _savetoDB(currentRecipe);
+    return currentRecipe;
+  }
 
+  Future<void> _savetoDB(Recipe currentRecipe) async {
     String ingredients = jsonEncode(currentRecipe.recipeSteps);
     debugPrint(" Ingredients JSON version $ingredients");
-
     String steps = jsonEncode(currentRecipe.recipeIngredients);
     debugPrint(" Steps JSON version $steps");
-
     await RecipeDBWorker.db.create(currentRecipe, ingredients, steps);
-
-    return currentRecipe;
   }
 
   ///Cleans the page so when coming back into this page, nothing is populated

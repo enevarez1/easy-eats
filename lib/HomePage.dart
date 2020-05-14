@@ -2,7 +2,7 @@ import "dart:math";
 
 import 'package:easy_eats/RecipeDBWorker.dart';
 import 'package:easy_eats/recipe/CreateRecipe.dart';
-import 'package:easy_eats/recipe/Recipe.dart';
+import 'package:easy_eats/recipe/RecipeModel.dart';
 import 'package:easy_eats/recipe/SearchRecipe.dart';
 import 'package:easy_eats/recipe/ViewRecipe.dart';
 import 'package:flutter/cupertino.dart';
@@ -12,34 +12,34 @@ import 'package:flutter_slidable/flutter_slidable.dart';
 import 'model/NavigationModel.dart';
 
 List recipes = [];
-//var recipes = <Recipe>[];
 
 class HomePage extends StatefulWidget {
-  HomePage();
   @override
   _HomePageState createState() => _HomePageState();
 }
 
 class _HomePageState extends State<HomePage> {
+  _HomePageState() {
+    initState();
+  }
+
   var username = "Username";
   var email = "utepstudent@miners.utep.edu";
   var currentRecipe;
 
-  @override
-  void initState() { 
+  void initState() {
     loadData();
+    print("initial state");
     super.initState();
   }
+
   void loadData() async {
-    debugPrint("loadData() called");
-    var loadRecipes = await RecipeDBWorker.db.getAll();
+    var newRecipes = await RecipeDBWorker.db.getAll();
+    print("load data");
     setState(() {
-      recipes = loadRecipes;
+      recipes = newRecipes;
     });
   }
-
-
-  _HomePageState();
 
   @override
   Widget build(BuildContext context) {
@@ -129,6 +129,7 @@ class _HomePageState extends State<HomePage> {
                   color: Colors.red,
                   icon: Icons.delete,
                   onTap: () {
+                    _deleteNote(context, recipes[index]);
                     setState(() {
                       recipes.removeAt(index);
                     });
@@ -150,5 +151,37 @@ class _HomePageState extends State<HomePage> {
         itemCount: recipes.length,
       ),
     );
+  }
+
+  Future _deleteNote(BuildContext inContext, Recipe inRecipe) async {
+    return showDialog(
+        context: inContext,
+        barrierDismissible: false,
+        builder: (BuildContext inAlertContext) {
+          return AlertDialog(
+              title: Text("Delete Recipe"),
+              content: Text("Are you sure you want to delete this recipe?"),
+              actions: [
+                FlatButton(
+                    child: Text("Cancel"),
+                    onPressed: () {
+                      // Just hide dialog.
+                      Navigator.of(inAlertContext).pop();
+                    }),
+                FlatButton(
+                    child: Text("Delete"),
+                    onPressed: () async {
+                      // Delete from database, then hide dialog, show SnackBar, then re-load data for the list.
+                      await RecipeDBWorker.db.delete(inRecipe.id);
+                      Navigator.of(inAlertContext).pop();
+                      Scaffold.of(inContext).showSnackBar(SnackBar(
+                          backgroundColor: Colors.red,
+                          duration: Duration(seconds: 2),
+                          content: Text("Recipe Deleted")));
+                      // Reload data from database.
+                      recipeModel.loadData("recipes", RecipeDBWorker.db);
+                    })
+              ]);
+        });
   }
 }

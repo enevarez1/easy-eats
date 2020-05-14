@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:easy_eats/recipe/Recipe.dart';
+import 'package:easy_eats/recipe/RecipeModel.dart';
 import 'package:flutter/cupertino.dart';
 import "package:path/path.dart";
 import "package:sqflite/sqflite.dart";

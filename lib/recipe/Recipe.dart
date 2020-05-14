@@ -1,17 +1,26 @@
-import 'dart:core';
+import "package:flutter/material.dart";
+import "package:scoped_model/scoped_model.dart";
 
-class Recipe {
-  int id;
-  String recipeName = "Name";
-  String recipeDescription = "Description";
-  List<dynamic> recipeIngredients;
-  List<dynamic> recipeSteps;
-  int recipePrepTime = 20;
-  int recipeCookTime = 25;
-  int recipeTotalTime = 55;
-  var imageFilepath = "";
-  
-  String toString() {
-    return "Name: $recipeName  Description: $recipeDescription  Prep time: $recipePrepTime  Cook time: $recipeCookTime";
+import '../HomePage.dart';
+import '../RecipeDBWorker.dart';
+import 'RecipeModel.dart';
+
+/// The Document screen.
+class Recipes extends StatelessWidget {
+  /// Constructor.
+  Recipes() {
+    print("-- Document.constructor");
+    recipeModel.loadData("documents", RecipeDBWorker.db);
+  }
+
+  Widget build(BuildContext inContext) {
+    print("-- Documents.build()");
+
+    return ScopedModel<RecipeModel>(
+        model: recipeModel,
+        child: ScopedModelDescendant<RecipeModel>(
+            builder: (BuildContext inContext, Widget inChild, RecipeModel inModel) {
+          return IndexedStack(index: 0, children: [HomePage()]);
+        }));
   }
 }
