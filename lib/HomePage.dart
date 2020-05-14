@@ -1,3 +1,4 @@
+import 'dart:io';
 import "dart:math";
 
 import 'package:easy_eats/RecipeDBWorker.dart';
@@ -138,12 +139,16 @@ class _HomePageState extends State<HomePage> {
             child: ListTile(
               title: Text('${recipes[index].recipeName}'),
               subtitle: Text('${recipes[index].recipeDescription}'),
-              leading: null,
+              leading: Image.file(
+                File(recipes[index].imageFilepath),
+                height: 100,
+                width: 100,
+              ),
               onTap: () {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => ViewRecipe(currentRecipe: recipes[index])));
+                        builder: (context) =>  ViewRecipe(currentRecipe: recipes[index])));
               },
             ),
           );

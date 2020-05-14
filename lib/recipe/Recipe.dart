@@ -9,7 +9,6 @@ import 'RecipeModel.dart';
 class Recipes extends StatelessWidget {
   /// Constructor.
   Recipes() {
-    print("-- Document.constructor");
     recipeModel.loadData("documents", RecipeDBWorker.db);
   }
 

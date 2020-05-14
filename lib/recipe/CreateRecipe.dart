@@ -129,8 +129,9 @@ class _CreateRecipeState extends State<CreateRecipe> {
   }
 
   void _showOptions(BuildContext context) {
-    String nameOfItem = "";
+
     Widget bottomListTile(IconData iconData) {
+      String nameOfItem = "";
       return ListTile(
           onTap: () {
             if (iconData == Icons.photo_camera) {
@@ -313,6 +314,7 @@ class _CreateRecipeState extends State<CreateRecipe> {
   }
 
   Recipe _saveRecipe() {
+    int total =  selectedUser2 + selectedUser1;
     Recipe currentRecipe = Recipe();
     currentRecipe.recipeName = _recipeNameEditingController.text;
     currentRecipe.recipeDescription = _recipeDescriptionEditingController.text;
@@ -321,6 +323,7 @@ class _CreateRecipeState extends State<CreateRecipe> {
     currentRecipe.recipePrepTime = selectedUser1;
     currentRecipe.recipeCookTime = selectedUser2;
     currentRecipe.imageFilepath = imageFilepath;
+    currentRecipe.recipeTotalTime = total;
     _savetoDB(currentRecipe);
     return currentRecipe;
   }
