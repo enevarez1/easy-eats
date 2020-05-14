@@ -119,7 +119,10 @@ class _CreateRecipeState extends State<CreateRecipe> {
                     onPressed: () {
                       _showOptions(context);
                     },
-                    child: Icon(Icons.camera),
+                    child: Icon(
+                      Icons.camera,
+                      color: Colors.white,
+                    ),
                   ),
                 ],
               )),
@@ -129,16 +132,18 @@ class _CreateRecipeState extends State<CreateRecipe> {
   }
 
   void _showOptions(BuildContext context) {
-
     Widget bottomListTile(IconData iconData) {
       String nameOfItem = "";
+      if (iconData == Icons.photo_camera) {
+        nameOfItem = "camera";
+      } else {
+        nameOfItem = "gallery";
+      }
       return ListTile(
           onTap: () {
             if (iconData == Icons.photo_camera) {
-              nameOfItem = "camera";
               _showPhotoCamera();
             } else {
-              nameOfItem = "gallery";
               _showPhotoLibrary();
             }
           },
@@ -278,6 +283,7 @@ class _CreateRecipeState extends State<CreateRecipe> {
   }
 
   void _showPhotoLibrary() async {
+    Navigator.pop(context);
     final file = await ImagePicker.pickImage(source: ImageSource.gallery);
     setState(() {
       imageFilepath = file.path;
@@ -285,6 +291,7 @@ class _CreateRecipeState extends State<CreateRecipe> {
   }
 
   void _showPhotoCamera() async {
+    Navigator.pop(context);
     final file = await ImagePicker.pickImage(
       source: ImageSource.camera,
     );
@@ -314,7 +321,7 @@ class _CreateRecipeState extends State<CreateRecipe> {
   }
 
   Recipe _saveRecipe() {
-    int total =  selectedUser2 + selectedUser1;
+    int total = selectedUser2 + selectedUser1;
     Recipe currentRecipe = Recipe();
     currentRecipe.recipeName = _recipeNameEditingController.text;
     currentRecipe.recipeDescription = _recipeDescriptionEditingController.text;
