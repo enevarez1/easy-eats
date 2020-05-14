@@ -25,11 +25,24 @@ class _HomePageState extends State<HomePage> {
   var email = "utepstudent@miners.utep.edu";
   var currentRecipe;
 
+  @override
+  void initState() { 
+    loadData();
+    super.initState();
+  }
+  void loadData() async {
+    debugPrint("loadData() called");
+    var loadRecipes = await RecipeDBWorker.db.getAll();
+    setState(() {
+      recipes = loadRecipes;
+    });
+  }
+
+
   _HomePageState();
 
   @override
   Widget build(BuildContext context) {
-    loadData();
     return Scaffold(
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () async {
@@ -138,8 +151,4 @@ class _HomePageState extends State<HomePage> {
       ),
     );
   }
-}
-void loadData() async {
-  debugPrint("loadData() called");
-    recipes = await RecipeDBWorker.db.getAll();
 }
